@@ -10,14 +10,15 @@ public class BossLevelController : MonoBehaviour
     [SerializeField] private GameObject _wall;
     [SerializeField] private EnemyBossController _bossController;
     [SerializeField] private LevelTrigger _levelTrigger;
-     private SpawnPoint[] _spawnPoints;
     [SerializeField] private FightStage[] _stages;
-    private bool _allStagesCompleted;
     [Inject] private EnemyManager _enemyManager;
-    private bool _levelActive;
     [Inject] private ActivityManager _activityManager;
     [Inject] private CinemachineTargetGroup _targetGroup;
     [Inject] private GameMode _gameMode;
+    
+    private SpawnPoint[] _spawnPoints;
+    private bool _allStagesCompleted;
+    private bool _levelActive;
     
     private void Awake()
     {
@@ -25,12 +26,11 @@ public class BossLevelController : MonoBehaviour
         _levelTrigger.OnLevelEnteredEvent += LevelTrigger_OnLevelEntered;
         _bossController.Vitals.OnDeath += EnemyBossController_OnDeath;
     }
-
+    
     private void OnDestroy()
     {
         _levelTrigger.OnLevelEnteredEvent -= LevelTrigger_OnLevelEntered;
         _bossController.Vitals.OnDeath -= EnemyBossController_OnDeath;
-
     }
 
     private void EnemyBossController_OnDeath()
@@ -44,6 +44,7 @@ public class BossLevelController : MonoBehaviour
     {
         var cinemachineCameraOffset=_cinemachineCamera.GetComponent<CinemachineCameraOffset>();
         cinemachineCameraOffset.enabled = false;
+        
         _targetGroup.AddMember(_bossController.transform, 2, 10);
         ActivateLevel();
     }
@@ -65,12 +66,7 @@ public class BossLevelController : MonoBehaviour
     {
         _activityManager.Create<MainMenuActivity>(ActivityNames.BossViewActivity);
     }
-
-    private void OnBossDeath()
-    {
-        _gameMode.OnVictory();
-    }
-
+    
     private void StartFight()
     {
         StartCoroutine(FightSequence());
@@ -89,7 +85,7 @@ public class BossLevelController : MonoBehaviour
 
     // I want to keep it simple and not over do it at this stage.
     // Normally for enemies i  would want to use some sort of state machine (behaviour tree)
-    // so the fights would be more exiting
+    // so the fights would be more exiting (Although this game is pretty simple so it depends on complexity of future enemies;
     private IEnumerator FightSequence()
     {
         yield return new WaitForSeconds(5);

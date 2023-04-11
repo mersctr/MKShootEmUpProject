@@ -4,8 +4,7 @@ using UnityEngine;
 public class PoolSystem : MonoBehaviour
 {
     private readonly Dictionary<int, GeneralPool> _pool = new();
-
-
+    
     private bool TryAddPool(GameObject poolItem)
     {
         var id = poolItem.GetInstanceID();

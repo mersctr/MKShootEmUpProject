@@ -12,7 +12,7 @@ public class BulletManager : MonoBehaviour
     {
         var poolItem = _poolSystem.GetItemFromPool(prefab.gameObject);
         var bullet = poolItem.GetComponent<Bullet>();
-        bullet.Initilize(this, 1, origin.position);
+        bullet.Initialize(this, 1, origin.position);
 
         var bulletRigidBody = bullet.Rigidbody;
         //Resetting bullet rigidBody values

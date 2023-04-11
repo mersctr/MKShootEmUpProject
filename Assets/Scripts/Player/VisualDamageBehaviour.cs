@@ -5,8 +5,8 @@ using Zenject;
 public class VisualDamageBehaviour : MonoBehaviour
 {
     [SerializeField] private Slider _lifeSlider;
-    private bool _hitAnimationActive;
     [InjectOptional] private Vitals _vitals;
+    private bool _hitAnimationActive;
 
     private void Awake()
     {
@@ -19,6 +19,7 @@ public class VisualDamageBehaviour : MonoBehaviour
     private void OnEnable()
     {
         _hitAnimationActive = false;
+        UpdateVisuals();
     }
 
     private void OnDestroy()
@@ -27,11 +28,6 @@ public class VisualDamageBehaviour : MonoBehaviour
             return;
 
         DeInitEventListeners();
-    }
-
-    private void Enable()
-    {
-        UpdateVisuals();
     }
 
     private void Vitals_OnChange()
@@ -58,6 +54,7 @@ public class VisualDamageBehaviour : MonoBehaviour
     {
         _vitals.OnChange += Vitals_OnChange;
     }
+    
     private void DeInitEventListeners()
     {
         _vitals.OnChange -= Vitals_OnChange;

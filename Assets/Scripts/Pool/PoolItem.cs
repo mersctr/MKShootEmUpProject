@@ -6,9 +6,7 @@ public class PoolItem : MonoBehaviour, IPoolAble
     [SerializeField] private float _timerToPoolReales;
     private float _currentTimer;
     private GeneralPool _parentPool;
-
-    public int PrefabPoolItemId { get; set; }
-
+    
     private void Update()
     {
         if (_currentTimer <= 0)

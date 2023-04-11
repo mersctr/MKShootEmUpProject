@@ -7,8 +7,8 @@ public class EnemySuicider : Enemy, IPoolAble
     [SerializeField] private int _damage;
     [SerializeField] private float _minDistanceToPlayer;
     [Inject] private PlayerController _player;
-    private IHittable _playerHittable;
     [Inject] private Vitals _vitals;
+    private IHittable _playerHittable;
 
     private void Start()
     {

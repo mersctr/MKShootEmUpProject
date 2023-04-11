@@ -8,6 +8,9 @@ public class Vitals : MonoBehaviour, IHittable
     public bool IsAlive => CurrentLife > 0;
     public int CurrentLife { get; private set; }
     public int DefaultLife => _defaultLife;
+    public event Action OnHit;
+    public event Action OnDeath;
+    public event Action OnChange;
 
     private void Awake()
     {
@@ -43,11 +46,7 @@ public class Vitals : MonoBehaviour, IHittable
         CurrentLife = 0;
         OnDeath?.Invoke();
     }
-
-    public event Action OnHit;
-    public event Action OnDeath;
-    public event Action OnChange;
-
+    
     public void AddLife(int life)
     {
         var newLife = CurrentLife;
@@ -70,9 +69,5 @@ public class Vitals : MonoBehaviour, IHittable
     {
         return CurrentLife / (float)DefaultLife;
     }
-
-    public bool LifIsBelow(float percentage)
-    {
-        return CurrentLife / (float)DefaultLife < percentage;
-    }
+    
 }

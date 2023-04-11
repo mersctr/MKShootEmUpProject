@@ -5,7 +5,6 @@ public class WeaponController : MonoBehaviour
     [SerializeField] private bool _useShells;
     [SerializeField] private bool _overrideFireRate;
     [SerializeField] private float _customFireRate;
-
     [SerializeField] private Weapon[] _currentWeapons;
 
     private void Awake()
@@ -42,6 +41,6 @@ public class WeaponController : MonoBehaviour
     public void TryToShoot(bool shoot)
     {
         foreach (var weapon in _currentWeapons)
-            weapon?.TryToShoot(shoot);
+            weapon.TryToShoot(shoot);
     }
 }

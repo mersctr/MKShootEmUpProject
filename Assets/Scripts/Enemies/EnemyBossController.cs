@@ -8,12 +8,13 @@ public class EnemyBossController : Enemy
     [SerializeField] private float _moveDuration = 1f;
     [SerializeField] private float _stopDuration = 2f;
     [SerializeField] private float _rotationSpeed = 2f;
-
+    [Inject] private PlayerController _playerController;
+    [Inject] private Vitals _vitals;
+    
     private int _currentPointIndex;
     private bool _isActive;
     private bool _isMoving;
-    [Inject] private PlayerController _playerController;
-    [Inject] private Vitals _vitals;
+  
     public Vitals Vitals => _vitals;
 
     private void Update()

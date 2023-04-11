@@ -27,8 +27,5 @@ public class EnemyManager : MonoBehaviour
             enemy.transform.position = spawnPosition;
         }
     }
-
-    public void ReturnEnemy(IPoolable enemy)
-    {
-    }
+    
 }

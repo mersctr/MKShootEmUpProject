@@ -9,7 +9,7 @@ public class LevelManager : MonoBehaviour
     {
         foreach (var section in _levelSections)
         {
-            section.EnableSection(true);
+            section.TurnOnColliders(true);
         }
     }
 }

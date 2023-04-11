@@ -3,12 +3,12 @@ using Zenject;
 
 public class PlayerMovement : MonoBehaviour
 {
-    private const float _gravity = 9f;
     [Inject] private PlayerController _actionController;
     [Inject] private CharacterController _characterController;
+    [Inject] private PlayerMovementSettingsSO _settings;
+    private const float _gravity = 9f;
     private Vector3 _lookPosition;
     private Vector3 _movementDirection;
-    [Inject] private PlayerMovementSettingsSO _settings;
 
     private void Awake()
     {

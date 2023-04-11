@@ -1,11 +1,18 @@
+using System;
 using UnityEngine;
 
 public class FaceCamera : MonoBehaviour
 {
-    // Update is called once per frame
+    private Camera _camera;
+
+    private void Awake()
+    {
+        _camera = Camera.main;
+    }
+
     private void Update()
     {
-        transform.LookAt(transform.position + Camera.main.transform.rotation * Vector3.forward,
-            Camera.main.transform.rotation * Vector3.up);
+        transform.LookAt(transform.position +_camera.transform.rotation * Vector3.forward,
+            _camera.transform.rotation * Vector3.up);
     }
 }

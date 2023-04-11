@@ -4,6 +4,7 @@ using UnityEngine;
 public class LevelTrigger : MonoBehaviour
 {
     private bool _entered;
+    public event Action OnLevelEnteredEvent;
 
     protected virtual void OnTriggerEnter(Collider other)
     {
@@ -14,5 +15,4 @@ public class LevelTrigger : MonoBehaviour
         OnLevelEnteredEvent?.Invoke();
     }
 
-    public event Action OnLevelEnteredEvent;
 }

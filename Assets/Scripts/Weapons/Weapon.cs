@@ -14,7 +14,7 @@ public class Weapon : MonoBehaviour
     [Inject] private BulletManager _bulletManager;
     private float _currentFireRate;
     private float _customFireRate;
-    private bool _isshooting;
+    private bool _ishooting;
     private bool _useCustomFireRate;
     private bool _useShells;
     private float _fireRate => _useCustomFireRate ? _customFireRate : _defaultFireRate;
@@ -22,7 +22,7 @@ public class Weapon : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (_isshooting)
+        if (_ishooting)
         {
             if (_currentFireRate <= 0)
             {
@@ -38,7 +38,7 @@ public class Weapon : MonoBehaviour
 
     public void TryToShoot(bool isShoting)
     {
-        _isshooting = isShoting;
+        _ishooting = isShoting;
     }
 
     private void Shoot()

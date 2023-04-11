@@ -7,8 +7,8 @@ using Zenject;
 
 public class BossViewActivity : MonoBehaviour
 {
-  [Inject] private EnemyBossController _bossController;
   [SerializeField] private VisualDamageBehaviour _visualDamageBehaviour;
+  [Inject] private EnemyBossController _bossController;
 
   private void Awake()
   {

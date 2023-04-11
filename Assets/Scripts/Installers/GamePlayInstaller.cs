@@ -4,7 +4,6 @@ using Zenject;
 
 public class GamePlayInstaller : MonoInstaller
 {
-    [SerializeField] private ListOfBulletsSO _bullets;
     [SerializeField] private SurfaceImpactListSO _surfaceImpactListSO;
 
     public override void InstallBindings()
@@ -12,7 +11,6 @@ public class GamePlayInstaller : MonoInstaller
         Container.Bind<GameMode>().FromComponentInHierarchy(true).AsSingle();
         Container.Bind<PoolSystem>().FromNewComponentOnNewGameObject().AsSingle();
         Container.Bind<BulletManager>().FromNewComponentOnNewGameObject().AsSingle();
-        Container.Bind<ListOfBulletsSO>().FromInstance(_bullets).AsSingle();
         Container.Bind<SurfaceImpactListSO>().FromInstance(_surfaceImpactListSO).AsSingle();
         Container.Bind<PlayerController>().FromComponentInHierarchy().AsSingle();
         Container.Bind<EnemyManager>().FromComponentInHierarchy(true).AsSingle();

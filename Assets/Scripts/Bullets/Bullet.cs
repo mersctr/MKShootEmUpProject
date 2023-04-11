@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Pool;
 using Zenject;
@@ -5,14 +6,19 @@ using Zenject;
 public class Bullet : MonoBehaviour, IPoolAble
 {
     [SerializeField] private LayerMask _raycastMask;
-    private bool _active;
     [Inject] private BulletManager _bulletManager;
+    private bool _active;
     private readonly int _damage = 20;
     private Vector3 _previousPosition;
     private Vector3 _shootOrigin;
     private float _timeToReturnToPool;
-    private Vector3 previousPosition;
     public Rigidbody Rigidbody { get; private set; }
+    public ObjectPool<GameObject> ParentPool { get; set; }
+
+    private void Awake()
+    {
+        Rigidbody = GetComponent<Rigidbody>();
+    }
 
     private void Update()
     {
@@ -27,16 +33,15 @@ public class Bullet : MonoBehaviour, IPoolAble
 
     private void FixedUpdate()
     {
-        previousPosition = transform.position;
+        _previousPosition = transform.position;
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        var postion = transform.position - transform.forward * other.contactOffset;
-        var result = GetCollisionInfo(previousPosition);
+        var result = GetCollisionInfo(_previousPosition);
 
-        var IHittable = other.GetComponent<IHittable>();
-        IHittable?.Hit(_damage);
+        var iHittable = other.GetComponent<IHittable>();
+        iHittable?.Hit(_damage);
 
         if (result.Item1)
             _bulletManager.CreateImpact(SurfaceType.Wall, result.Item2, result.Item3);
@@ -44,16 +49,14 @@ public class Bullet : MonoBehaviour, IPoolAble
         ReturnToPool();
     }
 
-    public ObjectPool<GameObject> ParentPool { get; set; }
-
-    public void Initilize(BulletManager bulletManager, float timeToReturnToPool, Vector3 origin)
+    public void Initialize(BulletManager bulletManager, float timeToReturnToPool, Vector3 origin)
     {
         _shootOrigin = origin;
         _bulletManager = bulletManager;
         _timeToReturnToPool = timeToReturnToPool;
         _active = true;
-        Rigidbody = GetComponent<Rigidbody>();
-        previousPosition = transform.position;
+        _previousPosition = transform.position;
+     
     }
 
     public void ReturnToPool()
@@ -61,7 +64,7 @@ public class Bullet : MonoBehaviour, IPoolAble
         _active = false;
         ParentPool.Release(gameObject);
     }
-
+    
     private (bool, Vector3, Quaternion) GetCollisionInfo(Vector3 prevPos)
     {
         RaycastHit hit;
