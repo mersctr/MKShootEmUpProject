@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Zenject;
 
 public class GameMode : MonoBehaviour
@@ -9,23 +10,12 @@ public class GameMode : MonoBehaviour
     [Inject] private EnemyManager _enemyManager;
     [Inject] private LevelManager _levelManager;
     [Inject] private PlayerController _playerController;
-    [Inject] private TargetGroupController _targetGroupController;
-
     private void Start()
     {
         _playerController.OnPlayerDied += PlayerController_OnPlayerDied;
         StartCoroutine(StartSequence());
     }
-
-    private void OnDestroy()
-    {
-    }
-
-    private void LevelManager_OnPlayerEnterdBossLevel()
-    {
-    }
-
-
+    
     private void PlayerController_OnPlayerDied()
     {
         StartDeathSequence();
@@ -37,44 +27,48 @@ public class GameMode : MonoBehaviour
         StartCoroutine(DeathSequence());
     }
 
-
+// Currently i don't need this to be a sequence but i want to develop this game further so normally i would  have some kind of 
+// starting sequence that makes sure everything is activate in proper order in the game
     private IEnumerator StartSequence()
     {
         yield return new WaitForEndOfFrame();
-        SetTimeScale(1);
-        ShowUI();
+        _playerController.gameObject.SetActive(false);
+        ShowStartUI();
     }
-
+    
+// Same as above StartSequence but for when player dies 
     private IEnumerator DeathSequence()
     {
         yield return new WaitForEndOfFrame();
-        SetTimeScale(0.2f);
-        yield return new WaitForSecondsRealtime(3);
-        ShowUI();
+       SetTimeScale(0.2f);
+       yield return new WaitForSecondsRealtime(4);
+        ShowDeathUI();
     }
-
-    private void StarBossFightSequence()
-    {
-        StopAllCoroutines();
-        StartCoroutine(BossFightSequence());
-        _boosFight = true;
-    }
-
-    private IEnumerator BossFightSequence()
-    {
+    
+    private IEnumerator BossDeathSequence()
+    {  
         yield return new WaitForEndOfFrame();
-        CloseGates();
+       SetTimeScale(0.2f);
+       yield return new WaitForSecondsRealtime(4);
+       ShowVictoryUI();
     }
 
-    private void CloseGates()
+    private void ShowDeathUI()
     {
-        //  _levelManager.BossLevvel
+        _activityManager.Create<DeathActivity>(ActivityNames.DeathUIActivity);
     }
 
-
-    private void ShowUI()
+  
+    private void ShowStartUI()
     {
         _activityManager.Create<MainMenuActivity>(ActivityNames.MainMenuActivity);
+    }
+
+    private void ShowVictoryUI()
+    {
+        //At this point  DeathActivity and VictoryActivity are basically are the same so no need 
+        // for new script
+        _activityManager.Create<DeathActivity>(ActivityNames.VictoryActivity);
     }
 
     private void SetTimeScale(float timeScale)
@@ -84,5 +78,19 @@ public class GameMode : MonoBehaviour
 
     public void StartGame()
     {
+        _levelManager.ActivateLevels();
+        _playerController.gameObject.SetActive(true);
+        SetTimeScale(1);
     }
+
+    public void RestartGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name, LoadSceneMode.Single);
+    }
+
+    public void OnVictory()
+    {
+        StartCoroutine(BossDeathSequence());
+    }
+    
 }

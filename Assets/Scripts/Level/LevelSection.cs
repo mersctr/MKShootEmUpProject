@@ -6,7 +6,7 @@ public class LevelSection : MonoBehaviour
     [SerializeField] private int _suicidersToSpawn;
 
     [SerializeField] private LevelTrigger _levelTriegger;
-
+    [SerializeField] private Collider _collider;
     private EnemyController[] _enemyControllers;
     [Inject] private EnemyManager _enemyManager;
 
@@ -16,8 +16,8 @@ public class LevelSection : MonoBehaviour
 
     private void Awake()
     {
-        _spawnPoints = GetComponentsInChildren<SpawnPoint>();
-        _enemyControllers = GetComponentsInChildren<EnemyController>();
+        _spawnPoints = GetComponentsInChildren<SpawnPoint>(true);
+        _enemyControllers = GetComponentsInChildren<EnemyController>(true);
         _levelTriegger = GetComponentInChildren<LevelTrigger>();
 
         _levelTriegger.OnLevelEnteredEvent += LevelTrigger_OnLevelTrigger;
@@ -39,5 +39,13 @@ public class LevelSection : MonoBehaviour
     {
         foreach (var enemy in _enemyControllers)
             enemy.gameObject.SetActive(status);
+    }
+/// <summary>
+/// It will turn on or off colliders for level. Find better name so comment is not needed
+/// </summary>
+/// <param name="status"></param>
+    public void EnableSection(bool status)
+    {
+        _collider.enabled = status;
     }
 }

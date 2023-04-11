@@ -24,14 +24,31 @@ public class PlayerController : MonoBehaviour
 
         _playerInput.Player.Fire.performed += PlayerInput_Fire;
         _playerInput.Player.Fire.canceled += PlayerInput_FireOff;
-        _playerInput.Player.Look.performed += PlayerInput_Look;
+        //_playerInput.Player.Look.performed += PlayerInput_Look;
         _playerInput.Player.ChangeWeapon.performed += PlayerInput_ChangeWeapon;
         _vitals.OnDeath += Vitals_OnDeath;
     }
 
     private void Update()
     {
+        UpdateMousePosition();
         UpdateMovementAction();
+    }
+
+    private void UpdateMousePosition()
+    {
+        if (_camera == null)
+            return;
+      //  var inputValue = _playerInput.Player.Move.ReadValue<Vector2>();
+        var inputValue = _playerInput.Player.Look.ReadValue<Vector2>();
+        // inputValue.y= Cursor.
+        var ray = _camera.ScreenPointToRay(new Vector3(inputValue.x, inputValue.y, 0));
+
+        if (Physics.Raycast(ray, out var hitPoint, 100f, _mouseRaycastTargetsMask))
+        {
+            OnLookAtPositionAction?.Invoke(hitPoint.point);
+            Debug.DrawLine(transform.position, hitPoint.point);
+        }
     }
 
 
@@ -41,7 +58,7 @@ public class PlayerController : MonoBehaviour
     {
         _playerInput.Player.Fire.performed -= PlayerInput_Fire;
         _playerInput.Player.Fire.canceled -= PlayerInput_FireOff;
-        _playerInput.Player.Look.performed -= PlayerInput_Look;
+        //_playerInput.Player.Look.performed -= PlayerInput_Look;
         _playerInput.Player.ChangeWeapon.performed -= PlayerInput_ChangeWeapon;
         _vitals.OnDeath -= Vitals_OnDeath;
     }
@@ -50,6 +67,7 @@ public class PlayerController : MonoBehaviour
     {
         if (_playerInput == null)
             return;
+        
 
         var inputValue = _playerInput.Player.Move.ReadValue<Vector2>();
         var direction = new Vector3(inputValue.x, 0, inputValue.y).normalized;

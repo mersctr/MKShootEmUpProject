@@ -193,6 +193,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _defaultLife: 100
+  _canReceiveDamage: 1
 --- !u!195 &7147818428165941880
 NavMeshAgent:
   m_ObjectHideFlags: 0

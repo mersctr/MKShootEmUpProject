@@ -1,3 +1,4 @@
+using Cinemachine;
 using UnityEngine;
 using Zenject;
 
@@ -8,15 +9,16 @@ public class GamePlayInstaller : MonoInstaller
 
     public override void InstallBindings()
     {
-        Container.Bind<GameMode>().FromComponentInHierarchy().AsSingle();
+        Container.Bind<GameMode>().FromComponentInHierarchy(true).AsSingle();
         Container.Bind<PoolSystem>().FromNewComponentOnNewGameObject().AsSingle();
         Container.Bind<BulletManager>().FromNewComponentOnNewGameObject().AsSingle();
         Container.Bind<ListOfBulletsSO>().FromInstance(_bullets).AsSingle();
         Container.Bind<SurfaceImpactListSO>().FromInstance(_surfaceImpactListSO).AsSingle();
         Container.Bind<PlayerController>().FromComponentInHierarchy().AsSingle();
-        Container.Bind<EnemyManager>().FromComponentInHierarchy().AsSingle();
+        Container.Bind<EnemyManager>().FromComponentInHierarchy(true).AsSingle();
         Container.Bind<EffectManager>().FromNewComponentOnNewGameObject().AsSingle();
-        Container.Bind<LevelManager>().FromComponentInHierarchy().AsSingle();
-        Container.Bind<TargetGroupController>().FromComponentInHierarchy().AsSingle();
+        Container.Bind<LevelManager>().FromComponentInHierarchy(true).AsSingle();
+        Container.Bind<CinemachineTargetGroup>().FromComponentInHierarchy(true).AsSingle();
+        Container.Bind<EnemyBossController>().FromComponentInHierarchy(true).AsSingle();
     }
 }

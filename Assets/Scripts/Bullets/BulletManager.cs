@@ -31,7 +31,6 @@ public class BulletManager : MonoBehaviour
     {
         var poolItem = _poolSystem.GetItemFromPool(prefab.gameObject);
         poolItem.transform.SetPositionAndRotation(origin.position, origin.rotation);
-        poolItem.transform.parent = origin;
     }
 
     public void CreateImpact(SurfaceType surcafceType, Vector3 position, Quaternion rotation)

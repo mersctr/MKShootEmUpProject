@@ -700,6 +700,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _defaultLife: 2000
+  _canReceiveDamage: 1
 --- !u!114 &7010630788503839430
 MonoBehaviour:
   m_ObjectHideFlags: 0

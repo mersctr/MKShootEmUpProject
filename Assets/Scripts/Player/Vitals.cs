@@ -4,6 +4,7 @@ using UnityEngine;
 public class Vitals : MonoBehaviour, IHittable
 {
     [SerializeField] private int _defaultLife;
+    [SerializeField] private bool _canReceiveDamage=true;
     public bool IsAlive => CurrentLife > 0;
     public int CurrentLife { get; private set; }
     public int DefaultLife => _defaultLife;
@@ -13,7 +14,6 @@ public class Vitals : MonoBehaviour, IHittable
         UpdateHeath(_defaultLife);
     }
 
-    //Reseting value for pool purposes   
     private void OnEnable()
     {
         UpdateHeath(_defaultLife);
@@ -21,6 +21,9 @@ public class Vitals : MonoBehaviour, IHittable
 
     public void Hit(int Damage)
     {
+        if (!_canReceiveDamage)
+            return;
+        
         if (CurrentLife == 0)
             return;
 
